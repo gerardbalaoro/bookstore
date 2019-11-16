@@ -1,0 +1,140 @@
+.scroll-container {
+    height: 410px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    padding-top: 15px;
+}
+
+.scroll-container .title {
+    position: relative;
+    margin-bottom: theme('spacing.3');
+    font-weight: bold;
+    border-bottom: 3px solid theme('colors.gray.400');
+}
+
+.scroll-container .title h1 {
+    color: theme('colors.gray.900');
+    display: inline-block;
+    border-bottom: 3px solid theme('colors.blue.500');
+    margin-bottom: -3px;
+    padding-bottom: theme('spacing.3');
+}
+
+.carousel-thumb {
+    float: left;
+    overflow: hidden;
+}
+
+.carousel-thumb .overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    left: 0px;
+    width: 180px;
+    height: 270px;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+    transition: .25s;
+}
+
+.carousel-thumb:hover .overlay {
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+}
+
+.carousel-thumb .overlay p {
+    font-size: 14px;
+    color: #fff;
+    margin: 100px 10px 0px 10px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.carousel .carousel-container {
+    position: relative;
+    margin: 10px 40px;
+}
+
+/*
+This is the visible area of you carousel.
+Set a width here to define how much items are visible.
+The width can be either fixed in px or flexible in %.
+Position must be relative!
+*/
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+}
+
+/*
+This is the container of the carousel items.
+You must ensure that the position is relative or absolute and
+that the width is big enough to contain all items.
+*/
+.jcarousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+These are the item elements. jCarousel works best, if the items
+have a fixed width and height (but it's not required).
+*/
+.jcarousel li {
+    float: left;
+    width: 180px;
+    height: 270px;
+    border: none;
+    margin: 7px 19px 7px 7px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+    background: none repeat scroll 0% 0% #fff;
+    transition: all 0.25s ease 0s;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel .carousel-prev,
+.carousel .carousel-next {
+    display: inline-block;
+    width: 25px;
+    height: 270px;
+    margin: 7px 0px;
+    cursor: pointer;
+    text-indent: -5555em;
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    transition: all 0.15s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.27);
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.27);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.27);
+}
+
+.carousel .carousel-prev {
+    background: theme('colors.blue.500') url(carousel-prev.svg) no-repeat right 122px;
+    left: -40px;
+    border-radius: 3px 0px 0px 3px;
+}
+
+.carousel .carousel-next {
+    background: theme('colors.blue.500') url(carousel-next.svg) no-repeat left 122px;
+    right: -40px;
+    border-radius: 0px 3px 3px 0px;
+}
+
+.carousel .carousel-prev:hover {
+    background-color: theme('colors.blue.600')
+}
+
+.carousel .carousel-next:hover {
+    background-color: theme('colors.blue.600')
+}

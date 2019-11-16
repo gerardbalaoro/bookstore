@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+
+@import '../fonts/jost/styles.css';
+
+body {
+    font-family: Jost, Roboto, sans-serif;
+}
+
+.zondicon {
+    @apply flex rounded-full mr-3 w-8 h-8 bg-gray-200 text-gray-700
+}
+
+.zondicon svg {
+    @apply m-auto fill-current w-3 h-auto
+}
+
+.zondicon.zondicon-lg {
+    @apply w-12 h-12 mr-4
+}
+
+.zondicon.zondicon-lg svg {
+    @apply w-5
+}
+
+.book-details p,
+.book-details hr {
+    @apply text-sm mb-3 text-justify
+}
+
+.book-details h1,
+.book-details h2,
+.book-details h3,
+.book-details h4,
+.book-details h5 {
+    @apply font-bold text-base
+}
+
+.section {
+    @apply flex flex-wrap mb-8
+}
+
+.section-title {
+    @apply w-full text-gray-900 mb-3 border-b-3 border-gray-400
+}
+
+.section-title > h1 {
+    @apply w-fit block border-b-3 pb-3 border-blue-500 text-2xl font-medium mb-4;
+    margin-bottom: -3px;
+}
+
+@import 'plugins/carousel.css';
+@import 'plugins/magnific-popup.css';
+
+@tailwind utilities;
