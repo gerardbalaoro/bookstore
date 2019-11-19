@@ -35,7 +35,7 @@ trait OptimusRoute
      */
     public function resolveRouteBinding($value)
     {
-        $id = Optimus::decode($value);
+        $id = is_numeric($value) ? Optimus::decode($value) : null;
 
         return $this->where($this->getRouteKeyName(), '=', $id)->first();
     }

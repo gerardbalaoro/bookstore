@@ -13,7 +13,7 @@ class Series extends Model
 
     public function books()
     {
-        return $this->belongsToMany('App\Book', 'books_series_link', 'series', 'book');
+        return $this->belongsToMany(Book::class, 'books_series_link', 'series', 'book');
     }
 
     public function getUrlAttribute()

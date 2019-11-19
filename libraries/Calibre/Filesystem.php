@@ -3,91 +3,123 @@
 namespace Calibre;
 
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem\Adapter\Local;
 
 class Filesystem
 {
     /**
-     * Configuration data
+     * Calibre disk instance
+     *
+     * @var \Illuminate\Contracts\Filesystem
+     */
+    protected $disk;
+
+    /**
+     * Calibre configuration
      *
      * @var array
      */
-    private $config;
+    protected $config;
 
-    /**
-     * Get storage disk instance
-     *
-     * @var \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    public $disk;
+
 
     /**
      * Create new instance
-     *
-     * @param array $config
      */
     public function __construct(array $config)
     {
-        $this->config = $config;
         $this->disk = Storage::disk($config['disk']);
+        $this->config = $config;
     }
 
     /**
-     * Get path in calibre directory
+     * Prepend calibre path prefix
      *
      * @param string $path
-     * @return string
      */
-    public function path(string $path = null)
+    protected function __prefix($path)
     {
-        return $this->config['path'] . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+        return $this->config['path'] . ($path ? DIRECTORY_SEPARATOR : '') . $path;
     }
 
     /**
-     * Determine if a file or directory exists.
+     * Prepend calibre cache path prefix
      *
      * @param string $path
-     * @param bool $cache Use cache
+     */
+    protected function __cachePath($path)
+    {
+        return $this->config['cache'] . ($path ? DIRECTORY_SEPARATOR : '') . $path;
+    }
+
+    /**
+     * Assert that the given file exists.
+     *
+     * @param  string|array  $path
+     * @return $this
+     */
+    public function assertExists($path)
+    {
+        return $this->disk->assertExists($this->__prefix($path));
+    }
+
+    /**
+     * Assert that the given file does not exist.
+     *
+     * @param  string|array  $path
+     * @return $this
+     */
+    public function assertMissing($path)
+    {
+        return $this->disk->assertMissing($this->__prefix($path));
+    }
+
+    /**
+     * Determine if a file exists.
+     *
+     * @param  string  $path
      * @return bool
      */
-    public function exists(string $path, bool $cache = false)
+    public function exists($path)
     {
-        if ($cache) {
-            return Storage::exists($this->cachePath($path));
-        }
-
-        return $this->disk->exists($this->path($path));
+        return $this->disk->exists($this->__prefix($path));
     }
 
     /**
-     * Get contents of a file
+     * Get the full path for the file at the given "short" path.
      *
-     * @param string $path
-     * @param bool $cache Use cache
-     * @return mixed
+     * @param  string  $path
+     * @return string
      */
-    public function get(string $path, bool $cache = false)
+    public function path($path)
     {
-        if ($cache && $this->exists($path, true)) {
-            return Storage::get($this->cachePath($path));
-        }
-
-        $this->cache($path);
-        return Storage::get($this->cachePath($path));
+        return $this->disk->getAdapter()->getPathPrefix() . $this->__prefix($path);
     }
 
     /**
-     * Create a cached copy of a specified file
+     * Get the contents of a file.
      *
-     * @param string $path
+     * @param  string  $path
+     * @return string
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function cache(string $path)
+    public function get($path)
     {
-        if ($this->disk === Storage::disk()) {
-            return null;
-        }
+        return $this->disk->get($this->__prefix($path));
+    }
 
-        return Storage::put($this->cachePath($path), $this->disk->get($this->path($path)));
+    /**
+     * Create a streamed response for a given file.
+     *
+     * @param  string  $path
+     * @param  string|null  $name
+     * @param  array|null  $headers
+     * @param  string|null  $disposition
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function response($path, $name = null, array $headers = [], $disposition = 'inline')
+    {
+        return $this->disk->response($this->__prefix($path), $name, $headers, $disposition);
     }
 
     /**
@@ -96,29 +128,157 @@ class Filesystem
      * @param  string  $path
      * @param  string|null  $name
      * @param  array|null  $headers
-     * @param  bool $cache Use cache
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function download(string $path, string $name, array $headers = [], bool $cache = false)
+    public function download($path, $name = null, array $headers = [])
     {
-        if ($cache && $this->exists($path, true)) {
-            return Storage::download($this->cachePath(path), $name);
-        }
-
-        return $this->disk->download($this->path($path), $name, $headers);
+        return $this->response($path, $name, $headers, 'attachment');
     }
 
     /**
-     * Get path in calibre cache directory
+     * Get the visibility for the given path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function getVisibility($path)
+    {
+        return $this->disk->getVisibility($this->__prefix($path));
+    }
+
+    /**
+     * Get the file size of a given file.
+     *
+     * @param  string  $path
+     * @return int
+     */
+    public function size($path)
+    {
+        return $this->disk->getSize($this->__prefix($path));
+    }
+
+    /**
+     * Get the mime-type of a given file.
+     *
+     * @param  string  $path
+     * @return string|false
+     */
+    public function mimeType($path)
+    {
+        return $this->disk->getMimetype($this->__prefix($path));
+    }
+
+    /**
+     * Get the file's last modification time.
+     *
+     * @param  string  $path
+     * @return int
+     */
+    public function lastModified($path)
+    {
+        return $this->disk->getTimestamp($this->__prefix($path));
+    }
+
+    /**
+     * Get the URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function url($path)
+    {
+        return $this->disk->url($this->__prefix($path));
+    }
+
+    /**
+     * Get a temporary URL for the file at the given path.
+     *
+     * @param  string  $path
+     * @param  \DateTimeInterface  $expiration
+     * @param  array  $options
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function temporaryUrl($path, $expiration, array $options = [])
+    {
+        return $this->disk->temporaryUrl($this->__prefix($path), $expiration, $options);
+    }
+
+    /**
+     * Get an array of all files in a directory.
+     *
+     * @param  string|null  $directory
+     * @param  bool  $recursive
+     * @return array
+     */
+    public function files($directory = null, $recursive = false)
+    {
+        return $this->disk->files($this->__prefix($directory), $recursive);
+    }
+
+    /**
+     * Get all of the files from the given directory (recursive).
+     *
+     * @param  string|null  $directory
+     * @return array
+     */
+    public function allFiles($directory = null)
+    {
+        return $this->files($directory, true);
+    }
+
+    /**
+     * Get all of the directories within a given directory.
+     *
+     * @param  string|null  $directory
+     * @param  bool  $recursive
+     * @return array
+     */
+    public function directories($directory = null, $recursive = false)
+    {
+        return $this->disk->directories($this->__prefix($directory), $recursive);
+    }
+
+    /**
+     * Get all (recursive) of the directories within a given directory.
+     *
+     * @param  string|null  $directory
+     * @return array
+     */
+    public function allDirectories($directory = null)
+    {
+        return $this->directories($directory, true);
+    }
+
+    /**
+     * Determine if file is cached
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isCached($path)
+    {
+        if ($this->disk === Storage::disk()) {
+            return $this->disk->exists($path);
+        }
+
+        return Storage::exists($this->__cachePath($path));
+    }
+
+    /**
+     * Download file to cache
      *
      * @param string $path
      */
-    public function cachePath(string $path = null)
+    public function cache($path)
     {
         if ($this->disk === Storage::disk()) {
-            return $this->path($path);
+            return;
         }
 
-        return $this->config['cache'] . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+        Storage::put($this->__cachePath($path), $this->get($path));
     }
 }

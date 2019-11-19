@@ -151,7 +151,6 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
-        ArtisanLogo\ServiceProvider::class,
         Calibre\ServiceProvider::class,
         
         /*

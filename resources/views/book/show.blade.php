@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @inject('str', 'Illuminate\Support\Str')    
     <div class="section">
         <div class="mx-auto lg:w-4/5 mb-4 px-2">
             <div class="h-full md:p-8 rounded-lg overflow-hidden shadow-lg bg-white flex flex-wrap flex-col lg:flex-row">
@@ -40,8 +41,7 @@
                             @component('components.mini-card', ['subtitle' => 'Publication Date', 'class' => 'cursor-default'])
                                     @slot('icon')
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path d="M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8
-                                            0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"/>
+                                            <path d="M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"/>
                                         </svg>
                                     @endslot
                                     {{ $book->pubdate->format('M Y') }}
@@ -50,9 +50,7 @@
                                 @component('components.mini-card', ['subtitle' => 'Publisher', 'url' => $book->publishers[0]->url])
                                     @slot('icon')
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path d="M19 11a7.5 7.5 0 0 1-3.5 5.94L10 20l-5.5-3.06A7.5 7.5 0 0 1 1 11V3c3.38 
-                                            0 6.5-1.12 9-3 2.5 1.89 5.62 3 9 3v8zm-9 1.08l2.92 2.04-1.03-3.41 2.84-2.15-3.56-.08L10
-                                            5.12 8.83 8.48l-3.56.08L8.1 10.7l-1.03 3.4L10 12.09z"/>
+                                            <path d="M19 11a7.5 7.5 0 0 1-3.5 5.94L10 20l-5.5-3.06A7.5 7.5 0 0 1 1 11V3c3.38 0 6.5-1.12 9-3 2.5 1.89 5.62 3 9 3v8zm-9 1.08l2.92 2.04-1.03-3.41 2.84-2.15-3.56-.08L10 5.12 8.83 8.48l-3.56.08L8.1 10.7l-1.03 3.4L10 12.09z"/>
                                         </svg>
                                     @endslot
                                     {{ $book->publishers[0]->name }}
@@ -62,8 +60,7 @@
                                 @component('components.mini-card', ['subtitle' => 'ISBN'])
                                     @slot('icon')
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path d="M13.6 13.47A4.99 4.99 0 0 1 5 10a5 5 0 0 1 8-4V5h2v6.5a1.5 1.5 0 0 0 3 0V10a8 8 0 1 0-4.42 7.16l.9 
-                                        1.79A10 10 0 1 1 20 10h-.18.17v1.5a3.5 3.5 0 0 1-6.4 1.97zM10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                        <path d="M13.6 13.47A4.99 4.99 0 0 1 5 10a5 5 0 0 1 8-4V5h2v6.5a1.5 1.5 0 0 0 3 0V10a8 8 0 1 0-4.42 7.16l.9 1.79A10 10 0 1 1 20 10h-.18.17v1.5a3.5 3.5 0 0 1-6.4 1.97zM10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
                                     </svg>
                                     @endslot
                                     {{ $isbn->val }}
@@ -82,22 +79,19 @@
                         @endif
                         <div class="px-6 py-2 cursor-default rounded-full border border-gray-500 mx-auto mb-3">
                             @foreach (range(1, 5) as $star)
-                                <svg class="text-{{ round($book->ratings[0]->rating / 10) * 5 >= $star ? 'blue-500' : 'gray-700' }}
-                                            truncate w-5 fill-current inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg class="text-{{ round(data_get($book, 'ratings.0.rating', 0)) * 5 >= $star ? 'blue-500' : 'gray-500' }} truncate w-5 fill-current inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"></path>
                                 </svg>
                             @endforeach
                         </div>
                         <div class="px-6 py-2 flex flex-wrap justify-center">
                             @foreach ($book->identifiers->where('type', '!=', 'isbn') as $id)
-                                <a href="{{ $id->url }}" target="_blank" class="rounded-lg m-1 px-4 py-2
-                                bg-{{ $id->color }}-500 hover:bg-{{ $id->color }}-600 text-white truncate font-semibold leading-tight shadow">
+                                <a href="{{ $id->url }}" type="{{ $str->camel($id->name) }}" target="_blank" class="rounded-lg m-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 bg-{{ $id->type }}-500 hover:bg-{{ $id->type }}-600 text-white truncate font-semibold leading-tight shadow">
                                     {{ $id->name }}
                                 </a>
                             @endforeach
                             @foreach ($book->downloads as $dl)
-                                <a href="{{ route('book.download', [$book, $dl]) }}" target="_blank" class="rounded-lg m-1 px-4 py-2 
-                                bg-green-500 hover:bg-green-600 text-white truncate font-semibold leading-tight shadow">
+                                <a href="{{ url()->temporarySignedRoute('book.download', now()->addHours(2), $dl) }}" target="download" class="rounded-lg m-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white truncate font-semibold leading-tight shadow">
                                     <svg class="fill-current w-4 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path>
                                     </svg>

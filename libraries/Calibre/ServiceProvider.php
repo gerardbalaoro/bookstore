@@ -34,7 +34,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/calibre.php', 'calibre');
 
         $this->app->singleton('Calibre\Filesystem', function ($app) {
-            return new Filesystem($app->config['calibre']);
+            $config = $app->config['calibre'];
+            return new Filesystem($config);
         });
     }
 

@@ -11,13 +11,13 @@ class BookController extends Controller
     {
         return view('book.index')->with([
             'title' => 'All Books',
-            'books' => Book::orderBy('title')->with('authors', 'comments')->get()
+            'books' => Book::orderBy('title')->with('authors', 'ratings')->get()
         ]);
     }
 
     public function show(Book $book)
     {
-        $book->load('authors', 'comments', 'publishers', 'series', 'tags', 'ratings', 'downloads');
+        $book->loadMissing('authors', 'comments', 'publishers', 'series', 'tags', 'ratings', 'downloads');
         return view('book.show')->with([
             'book'  => $book,
             'title' => $book->title

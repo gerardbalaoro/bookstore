@@ -15,9 +15,16 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if ($request->has('s')) {
+            return view('book.index')->with([
+                'title' => "Results for '{$request->s}'",
+                'books' => $request->s ? Book::search("*\"$request->s\"*")->with('authors', 'ratings')->get() : []
+            ]);
+        }
+
         return view('home')->with([
-            'new' => \App\Book::with('authors', 'comments')->orderBy('timestamp', 'desc')->limit(6)->get(),
-            'recent' => \App\Book::with('authors', 'comments')->orderBy('pubdate', 'desc')->limit(12)->get()
+            'new' => \App\Book::with('authors', 'ratings')->orderBy('timestamp', 'desc')->limit(6)->get(),
+            'recent' => \App\Book::with('authors', 'ratings')->orderBy('pubdate', 'desc')->limit(12)->get()
         ]);
     }
 }

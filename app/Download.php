@@ -13,7 +13,7 @@ class Download extends Model
     
     public $appends = ['path'];
 
-    public function book()
+    public function volume()
     {
         return $this->belongsTo(Book::class, 'book');
     }

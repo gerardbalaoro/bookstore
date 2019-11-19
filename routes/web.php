@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController')->name('home');
-Route::get('search', 'SearchController')->name('search');
 
 Route::get('books', 'BookController@index')->name('book.index');
 Route::get('book/{book}-{title?}', 'BookController@show')->name('book.show');
 Route::get('book/{book}/cover.jpg', 'BookCoverController')->name('book.cover');
-Route::get('book/{book}/dl/{file}', 'BookDownloadController')->name('book.download');
+
+Route::get('download/{file}', 'BookDownloadController')->name('book.download');
 
 Route::get('authors', 'AuthorController@index')->name('author.index');
 Route::get('author/{author}-{name?}', 'AuthorController@show')->name('author.show');

@@ -13,15 +13,14 @@ class BookCoverController extends Controller
      * Display cover image of specified book
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Calibre\Filesystem $files
+     * @param  \Calibre\Filesystem $disk
      * @param  \App\Book $book
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Filesystem $files, Book $book)
+    public function __invoke(Request $request, Filesystem $disk, Book $book)
     {
         $cover = $book->path.'/cover.jpg';
-        $cache = !((bool) $request->get('refresh'));
-        $image = Image::make($files->exists($cover, $cache) ? $files->get($cover, $cache) : public_path('images/cover.jpg'));
+        $image = Image::make($disk->exists($cover) ? $disk->get($cover) : public_path('images/cover.jpg'));
         if ($request->get('size') && $image->height() > $request->get('size')) {
             $image->heighten($request->get('size'));
         }

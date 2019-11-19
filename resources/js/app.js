@@ -24,8 +24,8 @@ jQuery(document).ready(function ($) {
         $('.jcarousel').jcarousel({
             wrap: 'circular'
         });
-
-        $('.jcarousel').jcarouselAutoscroll({
+        
+        $('.jcarousel[data-jcarouselautoscroll=true]').jcarouselAutoscroll({
             target: '+=3',
             interval: 4000,
             autostart: true

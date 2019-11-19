@@ -29,7 +29,7 @@ class AuthorController extends Controller
     {
         return view('book.index')->with([
             'title' => $author->name,
-            'books' => $author->books()->with('authors', 'comments')->orderBy('pubdate', 'desc')->get()
+            'books' => $author->books()->with('authors', 'ratings')->orderBy('pubdate', 'desc')->get()
         ]);
     }
 }

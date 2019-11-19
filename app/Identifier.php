@@ -15,6 +15,6 @@ class Identifier extends Model
     
     public function book()
     {
-        return $this->belongsTo('App\Book', 'book');
+        return $this->belongsTo(Book::class, 'book');
     }
 }

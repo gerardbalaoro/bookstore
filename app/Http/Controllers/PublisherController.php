@@ -17,7 +17,7 @@ class PublisherController extends Controller
     public function show(Publisher $publisher)
     {
         return view('book.index')->with([
-            'books' => $publisher->books()->with('authors', 'comments')->orderBy('pubdate', 'desc')->get(),
+            'books' => $publisher->books()->with('authors', 'ratings')->orderBy('pubdate', 'desc')->get(),
             'title' => $publisher->name
         ]);
     }

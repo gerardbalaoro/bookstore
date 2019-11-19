@@ -19,7 +19,7 @@
                                             - {{ $book->authors->pluck('name')->implode(', ') }}
                                         </p>
                                     </span>
-                                    <img src="{{ url('images/loading.svg') }}" data-src="{{ $book->cover(300) }}" alt="" width="180px" height="270px">
+                                    <img src="{{ url('images/loading.svg') }}" data-src="{{ $book->cover(300) }}" style="width:180px;height:270px">
                                 </a>
                             </div>
                         </li>

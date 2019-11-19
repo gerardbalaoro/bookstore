@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Calibre\Filesystem;
 use App\Download;
-use App\Book;
 
 class BookDownloadController extends Controller
 {
@@ -14,21 +13,24 @@ class BookDownloadController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Calibre\Filesystem $files
-     * @param  \App\Book $book
-     * @param  \App\Download $download
+     * @param  \App\Download $file
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Filesystem $files, Book $book, Download $file)
+    public function __invoke(Request $request, Filesystem $files, Download $file)
     {
-        $path = "{$book->path}/$file->path";
+        if (!$request->hasValidSignature()) {
+            return response(null, 401);
+        }
+
+        $file->loadMissing('volume');
+        $path = "{$file->volume->path}/$file->path";
 
         if (!$files->exists($path)) {
-            return abort(404);
+            return response(null, 404);
         }
 
         return $files->download(
-            $path,
-            "{$book->authors->pluck('name')->implode(', ')} - {$book->title}." . strtolower($file->format)
+            $path, "{$file->volume->authors->pluck('name')->implode(', ')} - {$file->volume->title}." . strtolower($file->format)
         );
     }
 }

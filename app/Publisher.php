@@ -11,7 +11,7 @@ class Publisher extends Model
 
     public function books()
     {
-        return $this->belongsToMany('App\Book', 'books_publishers_link', 'publisher', 'book');
+        return $this->belongsToMany(Book::class, 'books_publishers_link', 'publisher', 'book');
     }
 
     public function getUrlAttribute()
