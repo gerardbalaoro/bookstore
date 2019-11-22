@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Author;
 
 class AuthorController extends Controller
 {
     /**
      * Display a listing of authors
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -21,7 +20,7 @@ class AuthorController extends Controller
 
     /**
      * Display the specified author
-     * 
+     *
      * @param  \App\Author $author
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +28,7 @@ class AuthorController extends Controller
     {
         return view('book.index')->with([
             'title' => $author->name,
-            'books' => $author->books()->with('authors', 'ratings')->orderBy('pubdate', 'desc')->get()
+            'books' => $author->books()->with('authors', 'ratings')->orderBy('pubdate', 'desc')->paginate(30)->onEachSide(1)
         ]);
     }
 }

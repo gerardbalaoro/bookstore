@@ -11,7 +11,7 @@ class BookController extends Controller
     {
         return view('book.index')->with([
             'title' => 'All Books',
-            'books' => Book::orderBy('title')->with('authors', 'ratings')->get()
+            'books' => Book::orderBy('title')->with('authors', 'ratings')->paginate(30)->onEachSide(1)
         ]);
     }
 

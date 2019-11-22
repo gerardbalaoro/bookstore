@@ -18,7 +18,7 @@ class SeriesController extends Controller
     {
         return view('book.index')->with([
             'title' => $series->name,
-            'books' =>  $series->books()->with('authors', 'ratings')->orderBy('series_index')->get()
+            'books' =>  $series->books()->with('authors', 'ratings')->orderBy('series_index')->paginate(30)->onEachSide(1)
         ]);
     }
 }

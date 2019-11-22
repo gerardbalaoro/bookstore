@@ -30,7 +30,8 @@ class BookDownloadController extends Controller
         }
 
         return $files->download(
-            $path, "{$file->volume->authors->pluck('name')->implode(', ')} - {$file->volume->title}." . strtolower($file->format)
+            $path,
+            "{$file->volume->authors->pluck('name')->implode(', ')} - {$file->volume->title}." . strtolower($file->format)
         );
     }
 }

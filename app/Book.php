@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Calibre\Model;
 use Sofa\Eloquence\Eloquence;
-use App\Traits\IdentifierLinks;
+use Sofa\Eloquence\Mappable;
 use App\Traits\OptimusRoute;
 
 class Book extends Model
 {
-    use Eloquence;
+    use Eloquence, Mappable;
     use OptimusRoute;
     
     protected $searchableColumns = [
@@ -79,5 +79,13 @@ class Book extends Model
     public function getUrlAttribute()
     {
         return route('book.show', [$this, str_slug($this->title)]);
+    }
+
+    public function scopeWithRating($query)
+    {
+        return $query
+                    ->leftJoin('books_ratings_link', 'books.id', '=', 'books_ratings_link.book')
+                    ->leftJoin('ratings', 'ratings.id', '=', 'books_ratings_link.rating')
+                    ->addSelect('books.*', 'ratings.rating as rating');
     }
 }

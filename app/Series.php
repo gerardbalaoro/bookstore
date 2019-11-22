@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Calibre\Model;
 use App\Traits\OptimusRoute;
 
 class Series extends Model

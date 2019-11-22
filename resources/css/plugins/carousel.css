@@ -22,7 +22,7 @@
 }
 
 .carousel-thumb {
-    float: left;
+    float: none;
     overflow: hidden;
 }
 

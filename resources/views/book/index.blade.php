@@ -14,5 +14,8 @@
                 Nothing Here
             </div>
         @endforelse
+        @if (method_exists($books, 'links'))
+            {{ $books->links('components.pagination') }}
+        @endif
     </div>
 @endsection

@@ -20,8 +20,6 @@ class Filesystem
      */
     protected $config;
 
-
-
     /**
      * Create new instance
      */

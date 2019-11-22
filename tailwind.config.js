@@ -3,6 +3,19 @@ let palette = require('./resources/js/palette.js');
 module.exports = {
   theme: {
     extend: {
+      spacing: {
+        '72': '18rem',
+        '80': '20rem',
+        '84': '21rem',
+        '96': '24rem',
+      },
+      maxWidth: {
+        '40': '10rem',
+        '72': '18rem',
+        '80': '20rem',
+        '84': '21rem',
+        '96': '24rem',
+      },
       width: {
         'fit': 'fit-content',
       },

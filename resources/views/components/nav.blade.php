@@ -20,7 +20,7 @@
         </label>        
     </div>
     <div class="w-full hidden sm:flex flex-grow justify-center mt-3 lg:w-auto lg:mt-0" id="menu">
-        <div class="text-sm flex my-auto">
+        <div class="text-sm flex my-auto flex-wrap justify-around">
             <a href="{{ route('book.index') }}" class="block text-base mt-4 sm:inline-block lg:mt-0 text-blue-200 hover:text-white hover:font-medium mr-4 pl-5">
                 Books
             </a>

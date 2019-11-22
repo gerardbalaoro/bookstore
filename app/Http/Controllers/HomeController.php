@@ -18,13 +18,14 @@ class HomeController extends Controller
         if ($request->has('s')) {
             return view('book.index')->with([
                 'title' => "Results for '{$request->s}'",
-                'books' => $request->s ? Book::search("*\"$request->s\"*")->with('authors', 'ratings')->get() : []
+                'books' => $request->s ? Book::search("*\"$request->s\"*")->with('authors', 'ratings')->paginate(30)->onEachSide(1) : []
             ]);
         }
 
         return view('home')->with([
-            'new' => \App\Book::with('authors', 'ratings')->orderBy('timestamp', 'desc')->limit(6)->get(),
-            'recent' => \App\Book::with('authors', 'ratings')->orderBy('pubdate', 'desc')->limit(12)->get()
+            'top' => Book::withRating()->with('authors')->orderBy('rating', 'desc')->orderBy('pubdate', 'desc')->limit(12)->get(),
+            'new' => Book::with('authors', 'ratings')->orderBy('timestamp', 'desc')->limit(6)->get(),
+            'latest' => Book::with('authors', 'ratings')->orderBy('pubdate', 'desc')->limit(12)->get()
         ]);
     }
 }

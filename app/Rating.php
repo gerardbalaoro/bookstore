@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Calibre\Model;
 
 class Rating extends Model
 {
