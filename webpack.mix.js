@@ -20,7 +20,7 @@ mix
     ])
     .purgeCss({
         whitelistPatterns: [
-            /amazon/, /google/, /mobi-asin/, /barnesnoble/, /bookfusion/
+            /amazon/, /apple/, /google/, /mobi-asin/, /barnesnoble/, /bookfusion/, /uri/, /mfp/
         ]
     })
     .version();

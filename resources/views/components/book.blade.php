@@ -1,6 +1,6 @@
 <div class="max-w-sm sm-20 mt-20 sm:mt-auto mx-auto h-auto sm:h-full rounded overflow-visible shadow-lg flex flex-col bg-white">
     <a href="{{ $book->url }}">
-        <img class="w-2/3 sm:w-full mx-auto max-w-40 sm:max-w-full h-auto bg-gray-200 -mt-16 sm:mt-auto rounded shadow-lg sm:shadow-none" src="{{ url('images/loading.svg') }}" data-src="{{ $book->cover(600) }}" alt="{{ $book->title }} Cover">
+        <img class="w-2/3 sm:w-full mx-auto max-w-40 sm:max-w-full h-auto bg-gray-200 -mt-16 sm:mt-auto rounded shadow-lg sm:shadow-none" src="{{ url('images/loading.svg') }}" data-src="{{ $book->cover(250) }}" alt="{{ $book->title }} Cover">
     </a>
     <div class="px-6 py-4">
         <a href="{{ $book->url }}">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Calibre\Filesystem;
+use App\Calibre\Filesystem;
 use App\Book;
 use Image;
 
@@ -21,8 +21,11 @@ class BookCoverController extends Controller
     {
         $cover = $book->path.'/cover.jpg';
         $image = Image::make($disk->exists($cover) ? $disk->get($cover) : public_path('images/cover.jpg'));
-        if ($request->get('size') && $image->height() > $request->get('size')) {
-            $image->heighten($request->get('size'));
+        if ($request->has('h') or $request->has('w')) {
+            $image->resize($request->get('w'), $request->get('h'), function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
         }
 
         return $image->response();

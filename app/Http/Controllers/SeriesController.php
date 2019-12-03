@@ -10,7 +10,7 @@ class SeriesController extends Controller
     public function index()
     {
         return view('series.index')->with([
-            'series' => Series::orderBy('name', 'desc')->get()
+            'series' => Series::orderBy('name')->get()
         ]);
     }
 

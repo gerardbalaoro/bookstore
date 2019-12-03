@@ -10,7 +10,7 @@ class PublisherController extends Controller
     public function index()
     {
         return view('publisher.index')->with([
-            'publishers' => Publisher::orderBy('name', 'desc')->get()
+            'publishers' => Publisher::orderBy('name')->get()
         ]);
     }
 

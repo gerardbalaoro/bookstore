@@ -23,7 +23,7 @@ class HomeController extends Controller
         }
 
         return view('home')->with([
-            'top' => Book::withRating()->with('authors')->orderBy('rating', 'desc')->orderBy('pubdate', 'desc')->limit(12)->get(),
+            'top' => Book::popular()->with('authors')->limit(12)->get(),
             'new' => Book::with('authors', 'ratings')->orderBy('timestamp', 'desc')->limit(6)->get(),
             'latest' => Book::with('authors', 'ratings')->orderBy('pubdate', 'desc')->limit(12)->get()
         ]);

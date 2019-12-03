@@ -29,3 +29,4 @@ Route::get('series/{series}-{name?}', 'SeriesController@show')->name('series.sho
 
 Route::get('publishers', 'PublisherController@index')->name('publisher.index');
 Route::get('publisher/{publisher}-{name?}', 'PublisherController@show')->name('publisher.show');
+

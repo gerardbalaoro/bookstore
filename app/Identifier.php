@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Calibre\Model;
+use App\Calibre\Model;
 use App\Traits\Linkable;
 
 class Identifier extends Model

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Calibre\Model;
+use App\Calibre\Model;
 
 class Rating extends Model
 {

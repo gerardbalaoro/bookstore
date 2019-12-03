@@ -2,14 +2,15 @@
 
 namespace App;
 
-use Calibre\Model;
+use App\Calibre\Model;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
 use App\Traits\OptimusRoute;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
-    use Eloquence, Mappable;
+    use Eloquence;
     use OptimusRoute;
     
     protected $searchableColumns = [
@@ -61,9 +62,9 @@ class Book extends Model
         return $this->hasMany(Download::class, 'book');
     }
 
-    public function cover(int $size = null)
+    public function cover(int $w = null, int $h = null)
     {
-        return route('book.cover', $this) . ($size ? "?size=$size" : null);
+        return route('book.cover', array_filter([$this, 'w' => $w, 'h' => $h]));
     }
 
     public function getPubdateAttribute()
@@ -87,5 +88,15 @@ class Book extends Model
                     ->leftJoin('books_ratings_link', 'books.id', '=', 'books_ratings_link.book')
                     ->leftJoin('ratings', 'ratings.id', '=', 'books_ratings_link.rating')
                     ->addSelect('books.*', 'ratings.rating as rating');
+    }
+
+    public function scopePopular($query)
+    {
+        return $query->withRating()->orderBy('rating', 'desc')->orderBy('pubdate', 'desc');
+    }
+
+    public function scopeOrderByDate($query, $column, $direction = 'asc')
+    {
+        return $query->orderBy(DB::raw("DATE({$column}"), $direction);
     }
 }

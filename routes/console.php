@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
-use Calibre\Filesystem;
+use App\Calibre\Filesystem;
 
 /*
 |--------------------------------------------------------------------------

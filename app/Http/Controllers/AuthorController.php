@@ -14,7 +14,7 @@ class AuthorController extends Controller
     public function index()
     {
         return view('author.index')->with([
-            'authors' => Author::orderBy('name', 'asc')->get()
+            'authors' => Author::orderBy('name')->get()
         ]);
     }
 

@@ -26,6 +26,9 @@ module.exports = {
         'amazon': palette('FF9900', {
           'only': [500, 600]
         }),
+        'apple': palette('9933CC', {
+          'only': [500, 600]
+        }),
         'barnesnoble': palette('59A364', {
           'only': [500, 600]
         }),
@@ -37,7 +40,10 @@ module.exports = {
         }),
         'mobi-asin': palette('ECC846', {
           'only': [500, 600]
-        })
+        }),
+        'uri': palette('009688', {
+          'only': [500, 600]
+        }),
       }
     },
     borderWidth: {

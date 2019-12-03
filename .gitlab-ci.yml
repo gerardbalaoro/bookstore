@@ -2,7 +2,10 @@ deploy:
   stage: deploy
   image: "ruby:2.5"
   script:
-  - apt-get update -qy
-  - apt-get install rubygems ruby-dev -y
-  - gem install dpl
-  - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY --skip_cleanup
+    - apt-get update -qy
+    - apt-get install rubygems ruby-dev -y
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY --skip_cleanup
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: always

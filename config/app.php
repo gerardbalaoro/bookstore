@@ -151,7 +151,6 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
-        Calibre\ServiceProvider::class,
         
         /*
          * Application Service Providers...
@@ -162,6 +161,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\DropBoxServiceProvider::class,
+        App\Providers\CalibreServiceProvider::class,
 
     ],
 

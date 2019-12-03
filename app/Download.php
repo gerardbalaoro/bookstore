@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Calibre\Model;
+use App\Calibre\Model;
 use App\Traits\OptimusRoute;
 
 class Download extends Model
@@ -21,5 +21,14 @@ class Download extends Model
     public function getPathAttribute()
     {
         return $this->name.'.'.strtolower($this->format);
+    }
+
+    public function generateUrl(string $duration = null)
+    {
+        if ($duration) {
+            return url()->temporarySignedRoute('book.download', now(), $this);
+        }
+
+        return url()->signedRoute('book.download', $this);
     }
 }
