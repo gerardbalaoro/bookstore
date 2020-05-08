@@ -67,5 +67,6 @@ Follow the instructions on the [Laravel Documentation](https://laravel.com/docs/
 
 
 ## License
-    This work is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**
+
+This work is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**
 
